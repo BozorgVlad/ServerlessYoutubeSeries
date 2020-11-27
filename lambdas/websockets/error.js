@@ -13,13 +13,13 @@ exports.handler = async event => {
 
     try {
         const record = await Dynamo.get(connectionID, tableName);
-        const { messages, domainName, stage } = record;
+        const { errors, domainName, stage } = record;
 
-        messages.push(body.message);
+        errors.push(body.error);
 
         const data = {
             ...record,
-            messages,
+            errors,
         };
 
         await Dynamo.write(data, tableName);
@@ -28,11 +28,11 @@ exports.handler = async event => {
             domainName,
             stage,
             connectionID,
-            message: "response to message",
+            message: "error",
         });
         console.log('sent message');
 
-        return Responses._200({ message: 'got a message' });
+        return Responses._200({ message: 'error' });
     } catch (error) {
         return Responses._400({ message: 'message could not be received' });
     }

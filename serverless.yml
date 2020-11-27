@@ -1,9 +1,8 @@
-service: myserverlessproject2
+service: websockets-lambda
 
 provider:
     name: aws
     runtime: nodejs12.x
-    profile: serverlessUser
     region: eu-west-1
     environment:
         tableName: ${self:custom.tableName}
@@ -37,6 +36,11 @@ functions:
         events:
             - websocket:
                   route: message
+    websocket-error:
+        handler: lambdas/websockets/error.handler
+        events:
+            - websocket:
+                  route: error
 
 resources:
     Resources:

@@ -12,6 +12,7 @@ exports.handler = async event => {
         ID: connectionID,
         date: Date.now(),
         messages: [],
+        errors: [],
         domainName,
         stage,
     };
